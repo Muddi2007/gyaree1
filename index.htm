@@ -1,9 +1,549 @@
 <!DOCTYPE html>
-<html>
-    <head>
-       
-    </head>
-    <body>
-        <h1>hello world</h1>
-    </body>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tornet Pizzeria - Autentisk Pizza i Malmö</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(231,76,60,0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            position: relative;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            position: relative;
+            font-weight: 300;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            background: white;
+            border-radius: 15px;
+            padding: 4rem 3rem;
+            margin: -3rem auto 4rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border-left: 6px solid #e74c3c;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(231,76,60,0.05) 0%, transparent 70%);
+        }
+
+        .hero h2 {
+            color: #2c3e50;
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #555;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .price-banner {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 3rem 0;
+            box-shadow: 0 15px 40px rgba(231,76,60,0.4);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin: 4rem 0 3rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            border-radius: 2px;
+        }
+
+        .pizza-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .pizza-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .pizza-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .pizza-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pizza-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .pizza-content {
+            padding: 2rem;
+        }
+
+        .pizza-content h3 {
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .pizza-price {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .pizza-content p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .delivery-section {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 4rem 3rem;
+            margin: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .delivery-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(231,76,60,0.1) 0%, transparent 70%);
+        }
+
+        .delivery-section h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .delivery-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .delivery-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+            position: relative;
+        }
+
+        .delivery-btn {
+            background: white;
+            color: #2c3e50;
+            padding: 1.3rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .delivery-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            background: #e74c3c;
+            color: white;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature h4 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+        }
+
+        footer p {
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .pizza-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .delivery-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .delivery-btn {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TORNET PIZZERIA</h1>
+        <p>Autentisk smak i varje tugga</p>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h2>Välkommen till Malmös finaste pizzeria</h2>
+            <p>Hos Tornet Pizzeria förenas tradition med passion. Vi arbetar med hemlagad deg, noggrant utvalda ingredienser och beprövade familjerecept. Varje rätt tillagas med precision och omsorg för att ge dig en autentisk smakupplevelse direkt hem till dörren.</p>
+        </div>
+
+        <div class="price-banner">
+            🍕 Alla pizzor bara 120 kr 🍕
+        </div>
+
+        <h2 class="section-title">Våra Pizzor</h2>
+
+        <div class="pizza-grid">
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Margherita</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Klassisk italiensk pizza med tomatsås, mozzarella och färsk basilika. Enkel men perfekt i sin helhet.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Hawaii</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Den omtyckta kombinationen av saftig skinka och söt ananas på vår krispiga pizzabotten.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Kebabpizza</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Vår specialitet med saftig kebabkött, färska grönsaker och vår hemliga sås på krispig pizzabotten.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Kycklingpizza</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Saftigt kycklingkött marinerat efter vårt eget recept, toppad med färska ingredienser.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Stark Kebabpizza</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>För dig som gillar het mat! Kebab med stark chilisås och jalapeños på vår klassiska pizzabotten.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Quattro Formaggi</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Osträlskarens dröm med fyra olika sorters ost smält till perfektion på vår hemlagda deg.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Rullar & Tallrikar</h2>
+
+        <div class="pizza-grid">
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Kebabrulle</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Saftig kebab inrullad i nybakat tunnbröd med sallad, tomat, gurka och dressing.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Kycklingrulle</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Marinerad kyckling i mjukt tunnbröd med färska grönsaker och våra signatursåser.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Kebabtallrik</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Generös portion kebab serverad med pommes frites, sallad och vår hemlagda sås.</p>
+                </div>
+            </div>
+
+            <div class="pizza-card">
+                <div class="pizza-image" style="background-image: url('https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&q=80');"></div>
+                <div class="pizza-content">
+                    <h3>Kycklingtallrik</h3>
+                    <div class="pizza-price">120 kr</div>
+                    <p>Saftig kyckling med pommes, färska grönsaker och dressing. En komplett måltid!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="delivery-section">
+            <h3>Beställ direkt – vi levererar!</h3>
+            <p>Snabb och pålitlig hemleverans via våra partners</p>
+            <div class="delivery-buttons">
+                <a href="https://www.foodora.se/restaurant/v8oh/tornet-pizzeria" class="delivery-btn" target="_blank">Foodora</a>
+                <a href="https://wolt.com/sv/swe/malmo/restaurant/tornet-pizzeria" class="delivery-btn" target="_blank">Wolt</a>
+                <a href="https://www.ubereats.com/se/store/tornet-pizzeria/YYAs-WFlSIeX-y6Dz759qQ" class="delivery-btn" target="_blank">Uber Eats</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🍞</div>
+                <h4>Hemlagad deg</h4>
+                <p>Varje deg jäses och bearbetas med omsorg för perfekt konsistens och smak.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🍅</div>
+                <h4>Färska ingredienser</h4>
+                <p>Vi samarbetar med lokala leverantörer för högsta möjliga kvalitet.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">👨‍🍳</div>
+                <h4>Familjerecept</h4>
+                <p>Våra recept har förfinats genom generationer av matlagningskonst.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h4>Snabb leverans</h4>
+                <p>Professionell hemleverans som garanterar att maten når dig varm.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Tornet Pizzeria – Kvalitet och passion i varje rätt</p>
+        <p style="margin-top: 1rem; opacity: 0.8;">Malmö | Beställ nu via Foodora, Wolt eller Uber Eats</p>
+    </footer>
+</body>
 </html>
